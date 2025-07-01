@@ -100,7 +100,7 @@ Example:
 docker push 192.168.0.127:8080/my-java-app:1.1
 ```
 ```declarative
-piVersion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: example-my-java-app-deployment
