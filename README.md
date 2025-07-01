@@ -5,18 +5,18 @@
 ```
 sudo snap install microk8s --classic
 ```
-if you are using multiple nodes, MicroK8s has to be installed on all nodes
+If you are using multiple nodes, MicroK8s has to be installed on all nodes
 ### Check status on main node
 ```
 microk8s status --wait-ready
 ```
 
 ### Enable common add-ons
-run this command on the main node
+Run this command on the main node
 ```
 microk8s enable dns dashboard ingress registry
 ```
-After installation, we run check the dashboard functionality
+Later on, we check the dashboard functionality
 
 ### Create alias for easier command usage 
 ```bash
@@ -28,7 +28,8 @@ sudo usermod -a -G microk8s $USER
 sudo chown -f -R $USER ~/.kube
 newgrp microk8s
 ```
-With these steps, the installation is done on the main node. Run the following commands to check the state of the installation:
+With these steps, the installation is done on the main node. 
+Run the following commands to check the state of the installation:
 ```bash
 microk8s status #get the status
 k get nodes     #get nodes
@@ -45,18 +46,18 @@ Check the available nodes on main node:
 ```bash
 k get nodes
 ```
-If you want to have more details, run the following command on main node:
+If you want to see more details, run the following command on main node:
 ```bash
 k get nodes -o wide
 ```
 
-## Check dashbard:
+## Check dashboard:
 On the main node, run the following command:
 ```bash
 microk8s dashboard-proxy
 ```
 This command will print out the token you have to use to log in, also the url.
-This feature requires the add-on to be enabled (microk8s enable dashboard)
+This feature requires the dashboard add-on to be enabled (microk8s enable dashboard)
 
 After all these steps you have a 2 nodes cluster setup with dashboards.
 
@@ -64,7 +65,7 @@ After all these steps you have a 2 nodes cluster setup with dashboards.
 ## use your own docker registry - (https://github.com/Joxit/docker-registry-ui)
 
 ### Installation
-I used this docker registry on another linux machine
+I used this docker registry on another linux machine.
 ```bash
 docker run -d \
   --name registry \
@@ -82,9 +83,9 @@ curl http://<REGISTRY_HOST>:<PORT>/v2/_catalog
 You can also use UI for registry, check the documentation.
 
 ### how to set your microk8s to use this newly installed docker registry to download images
-On all nodes got to directory: "/var/snap/microk8s/current/args/certs.d"
+On all nodes go to directory: "/var/snap/microk8s/current/args/certs.d"
 Create a directory with the name of the registry server. In my case '192.168.0.127:8080'.
-In this new diretory create a new file named 'hosts.toml', and add the following content:
+In this new directory create a new file named 'hosts.toml', and add the following content:
 ```declarative
 server = "http://192.168.0.127:8080"
 
@@ -94,11 +95,12 @@ server = "http://192.168.0.127:8080"
 ```
 Modify the IP address to your address and the port to the port you are using.
 
-After all these changes you can push your app the registry and use in yaml files.
+After all these changes you can push your app to the registry and use in yaml files.
 Example:
 ```bash
 docker push 192.168.0.127:8080/my-java-app:1.1
 ```
+Example deployment file:
 ```declarative
 apiVersion: apps/v1
 kind: Deployment
